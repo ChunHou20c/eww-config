@@ -1,0 +1,26 @@
+(defwindow powermenu
+  :monitor 0 ;; Optional for X11
+  :stacking "fg"
+  :windowtype "normal"
+  :wm-ignore true
+  :geometry (geometry
+              :width "100%"
+              :height "100%"
+	    )
+    (powermenu_layout)
+  )
+
+(defwidget powermenu_layout [] (
+
+  box :class "layout_box" :space-evenly false :orientation "vertical"
+    :style "background-image: url('./bg.jpg')"
+
+    (box :class "layout_box" :space-evenly false :halign "end" :valign "start"
+
+      (button :class "close-btn" :onclick "notify-send first" 1)
+      (button :class "close-btn" :onclick "notify-send second" 2)
+      (button :class "close-btn" :onclick "notify-send third" 3)
+      (button :class "close-btn" :onclick "eww close powermenu" 4)
+    )
+  )
+)
