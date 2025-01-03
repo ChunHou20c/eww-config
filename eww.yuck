@@ -15,12 +15,16 @@
   box :class "layout_box" :space-evenly false :orientation "vertical"
     :style "background-image: url('./bg.jpg')"
 
-    (box :class "layout_box" :space-evenly false :halign "end" :valign "start"
+    (box :class "btn_box" 
+    :space-evenly false 
+    :halign "end" :valign "end" 
+    :spacing 5
+    :vexpand true :hexpand true
 
-      (button :class "close-btn" :onclick "notify-send first" 1)
-      (button :class "close-btn" :onclick "notify-send second" 2)
-      (button :class "close-btn" :onclick "notify-send third" 3)
-      (button :class "close-btn" :onclick "eww close powermenu" 4)
+      (button :class "power-btn" :onclick "notify-send first" "󰐥")
+      (button :class "power-btn" :onclick "notify-send second" "󰑐")
+      (button :class "power-btn" :onclick "notify-send third" "󰍃")
+      (button :class "close-btn" :onclick "eww close powermenu" "󰅖")
     )
   )
 )
