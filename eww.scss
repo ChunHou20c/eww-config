@@ -75,3 +75,38 @@ $surface-red: #f87070;
   padding: 0.8em;
   font-size: 2em;
 }
+
+.bar_layout {
+  font-family: Phosphor, Koulen;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.test-bar {
+  font-size: 1em;
+  // background-color: rgba($surface-red, 1.0);
+}
+
+.workspace_button {
+
+  border-radius: 1em;
+  &:hover {
+    color: $surface-red;
+    background-color: $surface-darkgrey;
+  }
+}
+
+.workspace_entry_normal {
+
+  padding-left: 1.0em;
+  padding-right: 1.0em;
+}
+
+.workspace_entry_active {
+
+  padding-left: 1.0em;
+  padding-right: 1.0em;
+  color: $surface-red;
+
+}
+

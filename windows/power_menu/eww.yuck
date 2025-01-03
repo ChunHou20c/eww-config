@@ -60,7 +60,7 @@
       :one "󰂂" :two "󰂁" :three "󰂀" :four "󰁿" :five "󰁾" 
       :six "󰁽" :seven "󰁼" :eight "󰁻" :nine "󰁺")
     (label :text "|" :class "sep")
-    (button :class "close-btn" :onclick "eww close powermenu" "󰅖")
+    (button :class "close-btn" :onclick "eww close powermenu && eww open status_bar" "󰅖")
   
 ))
 
