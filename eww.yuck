@@ -1,3 +1,12 @@
+(defpoll time :interval "5s"
+  :initial `date +'{"hour":"%H","min":"%M"}'`
+  `date +'{"hour":"%H","min":"%M"}'`)
+
+(defpoll net :interval "100s"
+  :initial `N/A`
+  `nmcli -t -f SIGNAL,ACTIVE device wifi \
+    | awk -F':' '{if($2=="yes")print$1}'`)
+
 (defwindow powermenu
   :monitor 0 ;; Optional for X11
   :stacking "fg"
@@ -15,16 +24,83 @@
   box :class "layout_box" :space-evenly false :orientation "vertical"
     :style "background-image: url('./bg.jpg')"
 
-    (box :class "btn_box" 
-    :space-evenly false 
-    :halign "end" :valign "end" 
-    :spacing 5
-    :vexpand true :hexpand true
-
-      (button :class "power-btn" :onclick "notify-send first" "󰐥")
-      (button :class "power-btn" :onclick "notify-send second" "󰑐")
-      (button :class "power-btn" :onclick "notify-send third" "󰍃")
-      (button :class "close-btn" :onclick "eww close powermenu" "󰅖")
-    )
+    (right_widget)
+    (power_buttons)
   )
 )
+
+(defwidget power_buttons [] (
+  box :class "btn_box" 
+  :space-evenly false 
+  :halign "end" :valign "end" 
+  :spacing 5
+  :vexpand true :hexpand true
+  
+    (button :class "power-btn" :onclick "notify-send first" "󰐥")
+    (button :class "power-btn" :onclick "notify-send second" "󰑐")
+    (button :class "power-btn" :onclick "notify-send third" "󰍃")
+  
+))
+
+(defwidget right_widget [] (
+
+  box :class "widget_box"
+  :space-evenly false 
+  :halign "end" :valign "start" 
+  :spacing 5
+  :vexpand true :hexpand true
+    (sundial)
+    (label :text "|" :class "sep")
+    (network :strength net :offline "󰤭" :excellent "󰤨" :good "󰤥" :okay "󰤢" :slow "󰤟")
+    (battery :capacity {EWW_BATTERY.BAT1.capacity} :status {EWW_BATTERY.BAT1.status} 
+      :charge_icon "󰂄" 
+      :one "󰂂" :two "󰂁" :three "󰂀" :four "󰁿" :five "󰁾" 
+      :six "󰁽" :seven "󰁼" :eight "󰁻" :nine "󰁺")
+    (label :text "|" :class "sep")
+    (button :class "close-btn" :onclick "eww close powermenu" "󰅖")
+  
+))
+
+(defwidget sundial []
+  (label :class "sundial-lbl" :halign "end" :hexpand true
+         :text {time.hour >= 2 && time.hour <= 4 ? "Early Morning" :
+               time.hour <= 5 ? "Dawn" :
+               time.hour >= 6 &&
+                (time.hour <= 8 &&
+                  time.min <= 59) ? "Morning" :
+               time.hour >= 9 &&
+                (time.hour <= 11 && time.min <= 59)
+                ? "Late Morning" :
+               time.hour == 12 && time.min <= 29 ? "Midday" :
+               time.hour >= 12 && time.hour <= 16 ? "Afternoon" :
+               time.hour > 16 && time.hour <= 17 ?
+                "Late Afternoon" :
+               (time.hour >= 17 && time.min <= 1)
+                || (time.hour <= 18 && time.min <= 20) ?
+                  "Early Evening" :
+               time.hour >= 18 && time.hour <= 19 ? "Dusk" :
+               time.hour > 19 && time.hour <= 21 ? "Late Evening" :
+               time.hour > 21 ? "Night" : "Midnight"}))
+
+(defwidget battery [capacity status one two three
+                    four five six seven eight nine charge_icon]
+  (box :class "bat-box" :space-evenly false :spacing 8
+    (label :text {status == 'Charging' ? charge_icon :
+      capacity < 20 ? nine :
+	capacity < 30 ? eight :
+	  capacity < 40 ? seven :
+	    capacity < 50 ? six :
+	      capacity < 60 ? five :
+		capacity < 70 ? four :
+		  capacity < 80 ? three :
+		    capacity < 90 ? two : one})))
+
+(defwidget network [strength offline excellent
+                    good okay slow]
+  (box :class "net-box"
+       :space-evenly false
+       :spacing 8
+    (label :text {strength == "" ? offline :
+      strength < 26 ? slow :
+        strength < 51 ? okay :
+          strength < 76 ? good : excellent})))
