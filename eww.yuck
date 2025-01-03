@@ -25,7 +25,10 @@
     :style "background-image: url('./bg.jpg')"
 
     (right_widget)
-    (power_buttons)
+    (box :space-evenly false :hexpand true :vexpand true
+      (time_widget :hour {time.hour} :minute {time.min})
+      (power_buttons)
+    )
   )
 )
 
@@ -104,3 +107,20 @@
       strength < 26 ? slow :
         strength < 51 ? okay :
           strength < 76 ? good : excellent})))
+
+(defwidget time_widget [hour minute] (
+  box :class "time-box" :space-evenly false
+    :halign "start" 
+    :valign "end"
+    :spacing 5
+    :vexpand true :hexpand true
+      (box :class "hour-box" :space-evenly false
+	:halign "start" :valign "start" :vexpand true :hexpand true 
+	(label :text hour)
+      )
+      (box :class "minute-box" :space-evenly false
+	:halign "end" :valign "end" :vexpand true :hexpand true 
+	(label :text minute)
+      )
+  
+))
