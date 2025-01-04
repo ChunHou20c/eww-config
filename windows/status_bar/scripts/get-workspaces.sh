@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 spaces (){
-  hyprctl workspaces -j | jq -Mc 'map({key: .id , value: .windows}) | sort_by(.key) | map({id: .key| tostring, windows: .value})'
+  hyprctl workspaces -j | jq -Mc 'map({key: .id , value: .windows}) | sort_by(.key) | [.[] | select(.key > 0)] | map({id: .key| tostring, windows: .value})'
   # echo $WORKSPACE_WINDOWS
   # seq 1 10 | jq --argjson windows "${WORKSPACE_WINDOWS}" --slurp -Mc 'map(tostring) | map({id: ., windows: ($windows[.]//0)})'
 }

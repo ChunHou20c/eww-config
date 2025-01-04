@@ -1,5 +1,6 @@
 (deflisten workspaces :initial "[]" "bash ~/.config/eww/windows/status_bar/scripts/get-workspaces.sh")
 (deflisten current_workspace :initial "5" "bash ~/.config/eww/windows/status_bar/scripts/get-active-workspace.sh")
+(deflisten window_title :initial "..." "bash ~/.config/eww/windows/status_bar/scripts/get-window-title.sh")
 
 (defwindow status_bar
   :monitor 0 ;; Optional for X11
@@ -11,21 +12,23 @@
               :height "30px"
 	      :anchor "top center"
 	    )
-    (box :class "bar_layout" :space-evenly false :orientation "vertical"
-	:vexpand true :hexpand true 
-      (box :class "test-bar" :space-evenly false :orientation "vertical" :halign "center" :valign "center"
-	:vexpand true :hexpand true 
-	(workspace_widget)
-
-      )
+    (box :class "bar_layout" :space-evenly true :orientation "horizontal"
+      :vexpand true :hexpand true 
+      (workspace_widget)
+      (window_title_widget)
+      (window_title_widget2)
     )
   )
 
 (defwidget workspace_widget [] 
- (box :space-evenly false :class "test-bar" :orientation "horizontal" :halign "center" :valign "center"
-  :vexpand true :hexpand true :spacing 5
+ (box 
+  :space-evenly false 
+  :class "status-bar" 
+  :orientation "horizontal" 
+  :halign "start"
+  :spacing 2
 
-  (label :text "${current_workspace}" :visible false)
+  (label :text "${current_workspace}" :visible false) ;; this line make sure the current_workspace variable get updated else it will stuck at the same number
   (for workspace in workspaces
    ( eventbox :class "workspace_button" :onclick "hyprctl dispatch workspace ${workspace.id}"
      (box :class "${current_workspace == workspace.id ? "workspace_entry_active" : "workspace_entry_normal" }" 
@@ -34,4 +37,22 @@
    )
   )
  )
+)
+
+(defwidget window_title_widget [] 
+ (box 
+  :class "window_title" 
+  :space-evenly false 
+  :halign "center" 
+    (label :text "${window_title == "null" ? "" : replace(window_title,"(^(?:\\S+\\s+\?){5,})","~ " )}")
+    ;;(label :text "${window_title == "null" ? "" : window_title }")
+  )
+)
+(defwidget window_title_widget2 [] 
+ (box 
+  :class "window_title" 
+  :space-evenly false 
+  :halign "end" 
+    (label :text "")
+  )
 )

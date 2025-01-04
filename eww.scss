@@ -77,14 +77,19 @@ $surface-red: #f87070;
 }
 
 .bar_layout {
-  font-family: Phosphor, Koulen;
+  font-family: HackNerdFontMono;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
-.test-bar {
-  font-size: 1em;
+.status-bar {
+  // font-size: 1em;
   // background-color: rgba($surface-red, 1.0);
+  padding-left: 0.5em;
+}
+
+.window_title {
+  font-size: 1em;
 }
 
 .workspace_button {
@@ -98,14 +103,18 @@ $surface-red: #f87070;
 
 .workspace_entry_normal {
 
-  padding-left: 1.0em;
-  padding-right: 1.0em;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
 }
 
 .workspace_entry_active {
 
-  padding-left: 1.0em;
-  padding-right: 1.0em;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
   color: $surface-red;
 
 }
