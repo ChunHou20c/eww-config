@@ -4,8 +4,8 @@
 
 (defpoll net :interval "100s"
   :initial `N/A`
-  `nmcli -t -f SIGNAL,ACTIVE device wifi \
-    | awk -F':' '{if($2=="yes")print$1}'`)
+  `nmcli -t -f SIGNAL,ACTIVE,SSID device wifi \
+    | awk -F':' '{if($2=="yes")printf "{\\"ssid\\":\\"%s\\",\\"signal\\":\\"%d\\"}", $3, $1}'`)
 
 (defwindow powermenu
   :monitor 0 ;; Optional for X11
@@ -52,9 +52,11 @@
   :halign "end" :valign "start" 
   :spacing 5
   :vexpand true :hexpand true
+
     (sundial)
     (label :text "|" :class "sep")
-    (network :strength net :offline "󰤭" :excellent "󰤨" :good "󰤥" :okay "󰤢" :slow "󰤟")
+    (network :ssid "${net.ssid}" :strength "${net.signal}" :offline "󰤭" :excellent "󰤨" :good "󰤥" :okay "󰤢" :slow "󰤟")
+    (label :text "|" :class "sep")
     (battery :capacity {EWW_BATTERY.BAT1.capacity} :status {EWW_BATTERY.BAT1.status} 
       :charge_icon "󰂄" 
       :one "󰂂" :two "󰂁" :three "󰂀" :four "󰁿" :five "󰁾" 
@@ -96,17 +98,21 @@
 	      capacity < 60 ? five :
 		capacity < 70 ? four :
 		  capacity < 80 ? three :
-		    capacity < 90 ? two : one})))
+		    capacity < 90 ? two : one})
+    (label :text "${capacity} %")
+  ))
 
-(defwidget network [strength offline excellent
+(defwidget network [ssid strength offline excellent
                     good okay slow]
   (box :class "net-box"
        :space-evenly false
-       :spacing 8
+       :spacing 12
     (label :text {strength == "" ? offline :
       strength < 26 ? slow :
         strength < 51 ? okay :
-          strength < 76 ? good : excellent})))
+          strength < 76 ? good : excellent})
+    (label :text ssid)
+  ))
 
 (defwidget time_widget [hour minute] (
   box :class "time-box" :space-evenly false

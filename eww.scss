@@ -69,11 +69,11 @@ $surface-red: #f87070;
 
 .bat-box {
   padding: 0.8em;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 .net-box {
   padding: 0.8em;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 .bar_layout {
@@ -90,6 +90,29 @@ $surface-red: #f87070;
 
 .window_title {
   font-size: 1em;
+}
+
+.right_tray {
+
+  font-size: 1em;
+  font-family: HackNerdFontMono;
+}
+
+.idle_inhibitor_button {
+
+  border-radius: 1em;
+  // &:hover {
+  //   color: $surface-red;
+  //   background-color: $surface-darkgrey;
+  // }
+}
+
+.idle_inhibitor_box {
+
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
 }
 
 .workspace_button {
