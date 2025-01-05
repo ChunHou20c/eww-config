@@ -3,6 +3,7 @@ $surface-fg: #949494;
 $surface-lightgrey: #3d464e;
 $surface-grey: #2b3238;
 $surface-red: #f87070;
+$surface-black: #040409;
 
 * { all: unset; }
 
@@ -80,6 +81,7 @@ $surface-red: #f87070;
   font-family: JetBrainsMono Nerd Font;
   background-repeat: no-repeat;
   background-size: contain;
+  background-color: rgba($surface-black, 0.7);
 }
 
 .status-bar {
