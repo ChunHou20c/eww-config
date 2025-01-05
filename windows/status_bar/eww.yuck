@@ -1,6 +1,9 @@
 (deflisten workspaces :initial "[]" "bash ~/.config/eww/windows/status_bar/scripts/get-workspaces.sh")
 (deflisten current_workspace :initial "5" "bash ~/.config/eww/windows/status_bar/scripts/get-active-workspace.sh")
 (deflisten window_title :initial "..." "bash ~/.config/eww/windows/status_bar/scripts/get-window-title.sh")
+(defvar time_rev false)
+(defvar calendar_rev false)
+(defpoll clock_date :interval "10h" "date '+%d/%m'")
 
 (defwindow status_bar
   :monitor 0 ;; Optional for X11
@@ -16,7 +19,7 @@
       :vexpand true :hexpand true 
       (workspace_widget)
       (window_title_widget)
-      (window_title_widget2)
+      (right_tray)
     )
   )
 
@@ -48,11 +51,49 @@
     ;;(label :text "${window_title == "null" ? "" : window_title }")
   )
 )
-(defwidget window_title_widget2 [] 
+(defwidget right_tray [] 
  (box 
-  :class "window_title" 
+  :class "right_tray" 
   :space-evenly false 
   :halign "end" 
-    (label :text "")
+  :spacing 5
+
+  ( eventbox :class "idle_inhibitor_button"
+    (box :class "idle_inhibitor_box"
+     (label :text "")
+    )
   )
-)
+  (clock_module)
+ )
+ )
+ (defwidget cal []
+	(box :class "cal" :orientation "v"
+	(box :class "cal-in"
+	(calendar :class "cal" 
+			  :day 20 
+			  :year 2025))))
+
+(defwindow calendar
+
+  :monitor 0 ;; Optional for X11
+  :geometry (geometry :x "0%" 
+   :y "0%" 
+   :anchor "top right"
+   :width "270px" 
+   :height "60px")
+(cal))
+
+(defwidget clock_module []
+  (eventbox :onhover "eww update time_rev=true"
+			  :onhoverlost "eww update time_rev=false"
+    (box :class "module" :space-evenly "false" :orientation "h" :spacing "10" 
+      (label :text "${time.hour}" :class "clock_time_class" )
+      (label :text ":" :class "clock_time_sep" )
+      (label :text "${time.min}" :class "clock_minute_class")
+	  (revealer :transition "slideleft"
+			  :reveal time_rev
+			  :duration "350ms"
+      (button :class "clock_date_class"
+             :onclick "~/.config/eww/windows/status_bar/scripts/eww_toggle_window.sh calendar" clock_date
+        )
+  ))))
