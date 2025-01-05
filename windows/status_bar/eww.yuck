@@ -107,7 +107,7 @@
 (eventbox :onhover "eww update vol_reveal=true"
 			:onhoverlost "eww update vol_reveal=false"
 (box :space-evenly "false" :orientation "h" :spacing "3" 
-      (button   :onclick "~/.config/eww/windows/status_bar/scripts/eww_toggle_window.sh volume" :class "volume_icon" "󰕾")
+      (button   :onclick "~/.config/eww/windows/status_bar/scripts/eww_toggle_window.sh volume" :class "volume_icon" "${volume_percent > 65 ? "󰕾" : volume_percent > 35 ? "󰖀" : "󰕿" }")
 
       (revealer :transition "slideleft"
 			:reveal vol_reveal
