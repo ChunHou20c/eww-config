@@ -13,26 +13,15 @@ calendar() {
 }
 
 volume() {
-
-  echo "volume"
-  notify-send "volume"
+  AUDIO_REV=$(eww get audioctl_reveal)
+  if [ "$AUDIO_REV" = "true" ]; then 
+    eww open audio_ctl
+    eww update audioctl_reveal=false
+  else
+    eww close audio_ctl
+    eww update audioctl_reveal=true
+  fi
 }
-
-# run() {
-#     ${EWW_BIN} -c $HOME/.config/eww/bar open calendar
-# }
-
-# # Open widgets
-# if [[ ! -f "$LOCK_FILE" ]]; then
-#     ${EWW_BIN} -c $HOME/.config/eww/bar close system music_win audio_ctl
-#     touch "$LOCK_FILE"
-#     run && echo "ok good!"
-# else
-#     ${EWW_BIN} -c $HOME/.config/eww/bar close calendar
-#     rm "$LOCK_FILE" && echo "closed"
-# fi
-# }
-
 
 if [ "$1" = "calendar" ]; then
 calendar
