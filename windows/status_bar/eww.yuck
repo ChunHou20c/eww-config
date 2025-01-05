@@ -4,8 +4,10 @@
 (defvar time_rev false)
 (defvar calendar_rev false)
 (defvar vol_reveal false)
+(defvar br_reveal false)
 (defpoll clock_date :interval "10h" "date '+%d/%m'")
-(defpoll volume_percent :interval "3s" "amixer -D default sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defpoll volume_percent :interval "2s" "amixer -D default sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defpoll brightness_percent :interval "2s" "brightnessctl -m -d intel_backlight | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
 
 (defwindow status_bar
   :monitor 0 ;; Optional for X11
@@ -65,6 +67,7 @@
      (label :text "")
     )
   )
+  (bright)
   (volume)
   (label :class "sep" :text "|")
   (clock_module)
@@ -119,3 +122,21 @@
 			:max 100
 			:min 0
 			:onchange "amixer -D default sset Master {}%" )))))
+(defwidget bright []
+  (eventbox :onhover "eww update br_reveal=true" :onhoverlost "eww update br_reveal=false"
+  (box :class "module-2" :space-evenly "false" :orientation "h" :spacing "3" 
+    (label :text "${
+    brightness_percent > 75 ? "󰃠" :
+      brightness_percent > 50 ? "󰃝" :
+	brightness_percent > 25 ? "󰃟" : "󰃞"
+    }" :class "bright_icon" :tooltip "brightness")
+	(revealer :transition "slideleft"
+			  :reveal br_reveal
+			  :duration "350ms"
+	(scale    :class "brightbar"
+			  :value brightness_percent
+			  :orientation "h"
+			  :tooltip "${brightness_percent}%"
+			  :max 100
+			  :min 0
+			  :onchange "brightnessctl set {}%" )))))

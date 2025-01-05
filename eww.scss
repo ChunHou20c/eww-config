@@ -171,14 +171,24 @@ $surface-red: #f87070;
 }
 
 .volbar trough highlight {
-  // background-image: linear-gradient(to right, #afcee0 30%, #a1bdce 50%, #77a5bf 100% *50);
+  background-image: linear-gradient(to right, #afcee0 30%, #a1bdce 50%, #77a5bf 100% *50);
   border-radius: 10px;
-  background-color: $surface-red;
+}
+
+.brightbar trough highlight {
+  background-image: linear-gradient(to right, #e4c9af 30%, #f2cdcd 50%, #e0b089 100% *50);
+  border-radius: 10px;
 }
 
 .volume_icon {
     font-size: 1.2em;
     color: #a1bdce;
+  margin: 0px 10px 0px 10px;
+}
+
+.bright_icon {
+    font-size: 1.2em;
+    color: #e4c9af;
   margin: 0px 10px 0px 10px;
 }
 
@@ -203,3 +213,5 @@ tooltip.background {
 tooltip label {
     margin: 0.2em;
 }
+
+
