@@ -69,6 +69,8 @@
   )
   (bright)
   (volume)
+  (mem)
+  (bat)
   (label :class "sep" :text "|")
   (clock_module)
  )
@@ -140,3 +142,29 @@
 			  :max 100
 			  :min 0
 			  :onchange "brightnessctl set {}%" )))))
+
+(defwidget bat []
+		(box :class "bat_module" :vexpand "false" :hexpand "false" 
+            (circular-progress :value "${EWW_BATTERY.BAT1.capacity}"
+                :class "batbar"
+                :thickness 4
+            (button 
+                :class "iconbat"
+                :limit-width 2
+                :tooltip "Battery: ${EWW_BATTERY.BAT1.capacity}%"
+                :show_truncated false
+                :wrap false
+                "󰧞"))))
+
+(defwidget mem []
+		(box :class "mem_module" :vexpand "false" :hexpand "false" 
+            (circular-progress :value "${EWW_RAM.used_mem_perc}"
+                :class "membar"
+                :thickness 4
+            (button 
+                :class "iconmem"
+                :limit-width 2
+                :tooltip "RAM: ${round(EWW_RAM.used_mem / 1000000000, 2)} / ${round(EWW_RAM.total_mem/1000000000, 2)} GB"
+                :show_truncated false
+                :wrap false
+                "󰧞"))))

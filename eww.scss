@@ -82,6 +82,8 @@ $surface-black: #040409;
   background-repeat: no-repeat;
   background-size: contain;
   background-color: rgba($surface-black, 0.7);
+  border-radius: 0.8em;
+  
 }
 
 .status-bar {
@@ -192,6 +194,35 @@ $surface-black: #040409;
     font-size: 1.2em;
     color: #e4c9af;
   margin: 0px 10px 0px 10px;
+}
+
+.bat_module {
+  border-radius: 16px;
+  margin: 0px 10px 0px 5px;
+}
+.mem_module {
+  border-radius: 16px;
+  margin: 0px 5px 0px 10px;
+}
+
+.batbar {
+  color: #afbea2;
+    background-color: #38384d;
+  border-radius: 10px;
+  padding: 2px;
+}
+
+.membar {
+  color: #e0b089;
+  border-radius: 10px;
+}
+
+.iconbat {
+    color: #afbea2;
+}
+.iconbat, .iconmem {
+    font-size: 1em;
+    margin: 0.5em;
 }
 
 scale trough {
