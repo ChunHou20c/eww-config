@@ -3,7 +3,9 @@
 (deflisten window_title :initial "..." "bash ~/.config/eww/windows/status_bar/scripts/get-window-title.sh")
 (defvar time_rev false)
 (defvar calendar_rev false)
+(defvar vol_reveal false)
 (defpoll clock_date :interval "10h" "date '+%d/%m'")
+(defpoll volume_percent :interval "3s" "amixer -D default sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
 
 (defwindow status_bar
   :monitor 0 ;; Optional for X11
@@ -63,6 +65,8 @@
      (label :text "")
     )
   )
+  (volume)
+  (label :class "sep" :text "|")
   (clock_module)
  )
  )
@@ -76,8 +80,8 @@
 (defwindow calendar
 
   :monitor 0 ;; Optional for X11
-  :geometry (geometry :x "0%" 
-   :y "0%" 
+  :geometry (geometry :x "10px" 
+   :y "10px" 
    :anchor "top right"
    :width "270px" 
    :height "60px")
@@ -97,3 +101,21 @@
              :onclick "~/.config/eww/windows/status_bar/scripts/eww_toggle_window.sh calendar" clock_date
         )
   ))))
+
+
+(defwidget volume []
+(eventbox :onhover "eww update vol_reveal=true"
+			:onhoverlost "eww update vol_reveal=false"
+(box :space-evenly "false" :orientation "h" :spacing "3" 
+      (button   :onclick "~/.config/eww/windows/status_bar/scripts/eww_toggle_window.sh volume" :class "volume_icon" "󰕾")
+
+      (revealer :transition "slideleft"
+			:reveal vol_reveal
+			:duration "350ms"
+      (scale    :class "volbar"
+			:value volume_percent
+			:orientation "h"
+			:tooltip "${volume_percent}%"
+			:max 100
+			:min 0
+			:onchange "amixer -D default sset Master {}%" )))))

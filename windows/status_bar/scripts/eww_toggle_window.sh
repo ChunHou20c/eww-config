@@ -12,6 +12,12 @@ calendar() {
   fi
 }
 
+volume() {
+
+  echo "volume"
+  notify-send "volume"
+}
+
 # run() {
 #     ${EWW_BIN} -c $HOME/.config/eww/bar open calendar
 # }
@@ -30,5 +36,7 @@ calendar() {
 
 if [ "$1" = "calendar" ]; then
 calendar
+elif [ "$1" = "volume" ]; then
+volume
 fi
 
